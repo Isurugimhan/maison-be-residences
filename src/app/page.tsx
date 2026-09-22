@@ -743,12 +743,25 @@ export default function LandingPage() {
 
                     <div>
                       <label className="input-label">Residence Preference</label>
-                      <select className="input-field" defaultValue="Belvedere — Penthouse">
-                        <option value="Belvedere — Penthouse">Belvedere — Penthouse ($1,100 / night)</option>
-                        <option value="Beaufort Residence">Beaufort Residence ($500 / night)</option>
-                        <option value="Berkeley Residence">Berkeley Residence ($500 / night)</option>
-                        <option value="Bellamy Residence">Bellamy Residence ($500 / night)</option>
-                      </select>
+                      <div className="luxury-select-wrapper">
+                        <select className="input-field" defaultValue="Belvedere — Penthouse">
+                          <option value="Belvedere — Penthouse">Belvedere — Penthouse ($1,100 / night)</option>
+                          <option value="Beaufort Residence">Beaufort Residence ($500 / night)</option>
+                          <option value="Berkeley Residence">Berkeley Residence ($500 / night)</option>
+                          <option value="Bellamy Residence">Bellamy Residence ($500 / night)</option>
+                        </select>
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--gold)"
+                          strokeWidth="2"
+                          className="luxury-select-arrow"
+                        >
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
 

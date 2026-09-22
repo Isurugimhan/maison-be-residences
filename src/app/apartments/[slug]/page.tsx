@@ -497,17 +497,31 @@ export default function ApartmentDetailPage() {
                     <label className="text-[10px] uppercase tracking-wider text-white/50 block mb-1">
                       Guests (Max {residence.sleeps})
                     </label>
-                    <select
-                      value={guestsCount}
-                      onChange={(e) => setGuestsCount(Number(e.target.value))}
-                      className="w-full bg-[#070c16] border border-white/15 px-3 py-2 text-xs text-white focus:outline-none focus:border-[#d4af37] cursor-pointer"
-                    >
-                      {Array.from({ length: residence.sleeps }, (_, i) => i + 1).map((n) => (
-                        <option key={n} value={n}>
-                          {n} Guest{n > 1 ? "s" : ""}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="luxury-select-wrapper">
+                      <select
+                        value={guestsCount}
+                        onChange={(e) => setGuestsCount(Number(e.target.value))}
+                        className="w-full bg-[#070c16] border border-white/15 px-3 py-2 pr-8 text-xs text-white focus:outline-none focus:border-[#d4af37] cursor-pointer appearance-none"
+                      >
+                        {Array.from({ length: residence.sleeps }, (_, i) => i + 1).map((n) => (
+                          <option key={n} value={n}>
+                            {n} Guest{n > 1 ? "s" : ""}
+                          </option>
+                        ))}
+                      </select>
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="var(--gold)"
+                        strokeWidth="2"
+                        className="luxury-select-arrow"
+                        style={{ right: "10px" }}
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
 

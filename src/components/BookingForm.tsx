@@ -101,16 +101,29 @@ export const BookingForm: React.FC = () => {
                 <label className="block text-[11px] font-medium tracking-[0.12em] uppercase text-white/60 mb-2">
                   Residence Preference
                 </label>
-                <select
-                  value={formData.preference}
-                  onChange={(e) => setFormData({ ...formData, preference: e.target.value })}
-                  className="w-full bg-[#070c16] border border-white/15 text-white px-4 py-3.5 text-sm rounded-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all"
-                >
-                  <option value="1-Bedroom Executive Suite">1-Bedroom Executive Suite</option>
-                  <option value="2-Bedroom Luxury Residence">2-Bedroom Luxury Residence</option>
-                  <option value="3-Bedroom Family Suite">3-Bedroom Family Suite</option>
-                  <option value="Signature Sky Penthouse">Signature Sky Penthouse</option>
-                </select>
+                <div className="luxury-select-wrapper">
+                  <select
+                    value={formData.preference}
+                    onChange={(e) => setFormData({ ...formData, preference: e.target.value })}
+                    className="w-full bg-[#070c16] border border-white/15 text-white px-4 py-3.5 pr-10 text-sm rounded-none focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all appearance-none cursor-pointer"
+                  >
+                    <option value="1-Bedroom Executive Suite">1-Bedroom Executive Suite</option>
+                    <option value="2-Bedroom Luxury Residence">2-Bedroom Luxury Residence</option>
+                    <option value="3-Bedroom Family Suite">3-Bedroom Family Suite</option>
+                    <option value="Signature Sky Penthouse">Signature Sky Penthouse</option>
+                  </select>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--gold)"
+                    strokeWidth="2"
+                    className="luxury-select-arrow"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
               </div>
 
               <div className="sm:col-span-2">

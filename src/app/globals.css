@@ -695,6 +695,16 @@ button {
 .hero-booking-col-guests {
   flex: 1.45;
   min-width: 165px;
+  position: relative;
+  padding-right: 36px;
+}
+
+.hero-booking-col-guests .hero-booking-col-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -707,6 +717,7 @@ button {
   .hero-booking-col-guests {
     flex: 1 1 100%;
     min-width: 100%;
+    padding-right: 38px;
   }
 }
 
@@ -825,15 +836,24 @@ button {
   text-overflow: ellipsis;
 }
 
-.chevron-icon {
-  margin-left: auto;
+.hero-booking-col-guests .chevron-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0;
+  pointer-events: none;
   color: var(--gold);
-  opacity: 0.8;
-  transition: transform 0.25s ease;
+  opacity: 0.85;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
 }
 
-.chevron-icon.rotate-180 {
-  transform: rotate(180deg);
+.hero-booking-col-guests .chevron-icon.rotate-180 {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.hero-booking-col-guests:hover .chevron-icon {
+  opacity: 1;
 }
 
 /* ── LUXURY CALENDAR POPOVER ── */
@@ -2573,6 +2593,60 @@ button {
   outline: none;
   border-color: var(--gold);
   background: rgba(7, 12, 22, 0.95);
+}
+
+/* ── LUXURY SELECT DROPDOWN STYLING ── */
+.luxury-select-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+select.input-field,
+.luxury-select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 42px !important;
+  cursor: pointer;
+  background-color: rgba(7, 12, 22, 0.7);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 16px) center;
+  background-size: 14px 14px;
+}
+
+/* If inside .luxury-select-wrapper with an explicit SVG icon, remove the background image */
+.luxury-select-wrapper > select {
+  background-image: none;
+}
+
+.luxury-select-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--gold);
+  opacity: 0.85;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.luxury-select-wrapper:hover .luxury-select-arrow {
+  opacity: 1;
+}
+
+.luxury-select-wrapper select:focus + .luxury-select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+  opacity: 1;
+}
+
+select.input-field option,
+.luxury-select-wrapper select option {
+  background: #080f1e;
+  color: #ffffff;
+  padding: 10px 14px;
 }
 
 .consultation-submit-btn {

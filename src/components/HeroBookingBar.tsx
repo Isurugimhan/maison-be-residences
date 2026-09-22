@@ -746,38 +746,40 @@ export default function HeroBookingBar({ onCheckAvailability }: HeroBookingBarPr
             setIsGuestsOpen(!isGuestsOpen);
           }}
         >
-          <span className="hero-booking-label">ROOMS & GUESTS</span>
-          <div className="luxury-booking-value">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--gold)"
-              strokeWidth="2"
-              className="mr-1.5 shrink-0 opacity-80"
-            >
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-            </svg>
-            <span className="value-text">
-              {guestsCount} Guest{guestsCount > 1 ? "s" : ""}, {roomsCount} Suite
-              {roomsCount > 1 ? "s" : ""}
-            </span>
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className={`chevron-icon ${isGuestsOpen ? "rotate-180" : ""}`}
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+          <div className="hero-booking-col-text">
+            <span className="hero-booking-label">ROOMS & GUESTS</span>
+            <div className="luxury-booking-value">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--gold)"
+                strokeWidth="2"
+                className="mr-1.5 shrink-0 opacity-80"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span className="value-text">
+                {guestsCount} Guest{guestsCount > 1 ? "s" : ""}, {roomsCount} Suite
+                {roomsCount > 1 ? "s" : ""}
+              </span>
+            </div>
           </div>
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className={`chevron-icon ${isGuestsOpen ? "rotate-180" : ""}`}
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </div>
 
         {/* SUBMIT BUTTON */}
