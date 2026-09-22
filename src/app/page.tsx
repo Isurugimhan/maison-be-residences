@@ -1,70 +1,79 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import HeroBookingBar from "@/components/HeroBookingBar";
+import SiteHeader from "@/components/SiteHeader";
+import StoryPhotoSlider from "@/components/StoryPhotoSlider";
+import { getAllResidences } from "@/data/residences";
 
 const heroSlides = [
   {
-    title: "Twilight Architectural Facade",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85",
-    alt: "Maison Be Residences Twilight Facade",
+    title: "Maison Be Residences • Ikoyi, Lagos",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/7ef125b8-d3b4-4136-a4f2-584f3dc01e7f.jpg",
+    alt: "Maison Be Residences Interior Living",
   },
   {
-    title: "Grand Residential Arrival Driveway",
-    img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1920&q=85",
-    alt: "Private Valet and Arrival Court",
+    title: "Belvedere Signature Penthouse Salon",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/6a9bf43f-4269-4927-8242-f022396303fc.jpg",
+    alt: "Belvedere Penthouse Living Room",
   },
   {
-    title: "Sky Horizon Infinity Pool & Lounge",
-    img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1920&q=85",
-    alt: "Horizon Infinity Pool",
+    title: "Beaufort Living & Dining Suite",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/66297d9e-562b-4ba7-9c6e-9bb3b6bf4720.jpg",
+    alt: "Beaufort Residence Salon",
   },
   {
-    title: "Signature Master Penthouse Salon",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85",
-    alt: "Penthouse Living Room",
+    title: "Berkeley & Bellamy Curated Suites",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/220a2086-9f5a-4b9a-a026-12a30962d97e.jpg",
+    alt: "Berkeley and Bellamy Suites",
   },
 ];
 
 const unitData = [
   {
-    name: "1-Bedroom Executive Suite",
-    badge: "RESIDENCE SPECIFICATION // 01",
-    area: "88 sqm / 947 sq.ft",
-    beds: "1 Bed • 1.5 En-Suite",
-    terrace: "14 sqm Private Balcony",
-    parking: "1 Dedicated Covered Bay",
-    img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=85",
-    desc: "Designed for dynamic executives and international investors, featuring an expansive open-concept salon, Italian marble chef kitchen, and private sunset terrace.",
+    slug: "belvedere-penthouse",
+    name: "Belvedere — Penthouse",
+    badge: "SIGNATURE PENTHOUSE // $1,100 / NIGHT",
+    area: "3 King Beds • Sleeps 7",
+    beds: "3 Bedrooms • 3.5 Bathrooms",
+    terrace: "2 Direct Penthouse Elevators",
+    parking: "Secured Resident Parking Included",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/6a9bf43f-4269-4927-8242-f022396303fc.jpg",
+    desc: "Elevated high above Ikoyi, Belvedere features two private direct elevators, soaring architectural ceiling heights, an expansive entertaining salon, formal dining room, full gourmet chef kitchen, and three magnificent king bedroom suites.",
   },
   {
-    name: "2-Bedroom Luxury Residence",
-    badge: "RESIDENCE SPECIFICATION // 02",
-    area: "142 sqm / 1,528 sq.ft",
-    beds: "2 Beds • 2.5 Bathrooms",
-    terrace: "26 sqm Wraparound Deck",
-    parking: "2 Dedicated Bays",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-    desc: "Generously proportioned with dual master suites, walk-in Italian wardrobes, private laundry suite, and panoramic skyline vistas.",
+    slug: "beaufort",
+    name: "Beaufort Residence",
+    badge: "LUXURY RESIDENCE // $500 / NIGHT",
+    area: "3 King Beds • Sleeps 7",
+    beds: "3 Bedrooms • 3.5 Bathrooms",
+    terrace: "Open-Concept Salon & Dining",
+    parking: "Secured Resident Parking Included",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/66297d9e-562b-4ba7-9c6e-9bb3b6bf4720.jpg",
+    desc: "A sanctuary of calm and understated sophistication. Beaufort balances generous open-concept living and dining with warm contemporary tones, bespoke woodwork, HEPA air purification, and restful private bedroom quarters.",
   },
   {
-    name: "3-Bedroom Family Suite",
-    badge: "RESIDENCE SPECIFICATION // 03",
-    area: "215 sqm / 2,314 sq.ft",
-    beds: "3 Beds • 3.5 Bathrooms",
-    terrace: "38 sqm Corner Terrace",
-    parking: "2 Dedicated Bays + Storage",
-    img: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=85",
-    desc: "A prestigious family haven with double reception salons, separate chef and prep kitchens, staff quarters, and triple-aspect daylight.",
+    slug: "berkeley",
+    name: "Berkeley Residence",
+    badge: "LUXURY RESIDENCE // $500 / NIGHT",
+    area: "3 King Beds • Sleeps 7",
+    beds: "3 Bedrooms • 3.5 Bathrooms",
+    terrace: "Curated Art & Designer Living",
+    parking: "Secured Resident Parking Included",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/220a2086-9f5a-4b9a-a026-12a30962d97e.jpg",
+    desc: "An artfully composed residence designed for extended unhurried stays. Berkeley boasts curated original artwork, an expansive gourmet kitchen, custom Italian furnishings, and tranquil morning light.",
   },
   {
-    name: "Signature Sky Penthouse",
-    badge: "RESIDENCE SPECIFICATION // 04",
-    area: "420 sqm / 4,520 sq.ft",
-    beds: "4 Beds • 5 Bathrooms",
-    terrace: "110 sqm Private Roof Deck & Pool",
-    parking: "3 Bays + Private Elevator",
-    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85",
-    desc: "The crown of Maison Be. Crowned with 360-degree city and ocean vistas, private heated rooftop plunge pool, wine cellar, and dedicated concierge dispatch.",
+    slug: "bellamy",
+    name: "Bellamy Residence",
+    badge: "LUXURY RESIDENCE // $500 / NIGHT",
+    area: "3 King Beds • Sleeps 7",
+    beds: "3 Bedrooms • 3.5 Bathrooms",
+    terrace: "Smart Home Integrated Living",
+    parking: "Secured Resident Parking Included",
+    img: "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/3fd0fbbe-c0b3-4819-b61c-2d93c07e962f.jpg",
+    desc: "Modern luxury defined by clean geometric lines, plush king suites, and effortless entertaining spaces. Bellamy offers total privacy in the heart of Ikoyi with seamless smart home technology.",
   },
 ];
 
@@ -76,8 +85,19 @@ export default function LandingPage() {
   const [activeSection, setActiveSection] = useState("");
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [whatsAppMessage, setWhatsAppMessage] = useState(
-    "Hello Maison Be Residences, I would like to inquire about off-plan availability and schedule a private tour."
+    "Hello Maison Be Residences, I would like to inquire about suite availability and rates."
   );
+
+  // Check-in / Check-out Booking Bar State
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
+  const [guestsRooms, setGuestsRooms] = useState("2 Guests, 1 Room");
+
+  const allResidences = getAllResidences();
+  const belvedereRes = allResidences.find((r) => r.slug === "belvedere-penthouse");
+  const beaufortRes = allResidences.find((r) => r.slug === "beaufort");
+  const belvedereGallery = belvedereRes?.gallery || [];
+  const beaufortGallery = beaufortRes?.gallery || [];
 
   const slideTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -91,10 +111,23 @@ export default function LandingPage() {
     };
   }, []);
 
+  // Setup default check-in and check-out dates (min 2 nights)
+  useEffect(() => {
+    const today = new Date();
+    const checkin = new Date(today);
+    checkin.setDate(checkin.getDate() + 1);
+    const checkout = new Date(today);
+    checkout.setDate(checkout.getDate() + 3);
+
+    const toISO = (d: Date) => d.toISOString().split("T")[0];
+    setCheckInDate(toISO(checkin));
+    setCheckOutDate(toISO(checkout));
+  }, []);
+
   // Active section scroll tracking (Scrollspy)
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["vision", "residences", "amenities", "investment", "contact"];
+      const sections = ["vision", "residences", "amenities", "experience", "contact"];
       const scrollPos = window.scrollY + 220;
 
       for (const sectionId of sections) {
@@ -122,20 +155,29 @@ export default function LandingPage() {
 
   const handleBooking = (e: React.FormEvent) => {
     e.preventDefault();
+    if (checkInDate && checkOutDate) {
+      const d1 = new Date(checkInDate).getTime();
+      const d2 = new Date(checkOutDate).getTime();
+      const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+      if (diffDays < 2) {
+        alert("Maison Be Residences requires a minimum reservation of 2 nights. Please select a later check-out date.");
+        return;
+      }
+    }
     alert(
-      "Thank you. Your private VIP viewing request has been confirmed. A Senior Portfolio Advisor will contact you within 15 minutes."
+      "Thank you. Your reservation request has been received. Our concierge team will contact you momentarily to confirm availability."
     );
   };
 
   const handleBrochureSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Monograph PDF dispatched. Check your email and WhatsApp momentarily.");
+    alert("Residence Lookbook & Floor Plans dispatched to your email and WhatsApp.");
     closeBrochureModal();
   };
 
   const handleSendWhatsApp = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const phone = "2348000000000";
+    const phone = "2349065007079";
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(whatsAppMessage)}`;
     window.open(url, "_blank", "noopener,noreferrer");
     setIsWhatsAppOpen(false);
@@ -145,170 +187,8 @@ export default function LandingPage() {
 
   return (
     <div data-od-id="maison-be-body">
-      {/* ─── GLOBAL FIXED HEADER ─── */}
-      <header className="site-header" data-od-id="global-header">
-        <div className="container header-inner">
-          <a href="#" className="brand-name">
-            <div className="brand-text-stack">
-              <span className="brand-title">Maison Be</span>
-              <span className="brand-subtitle">
-                <span>R</span>
-                <span>E</span>
-                <span>S</span>
-                <span>I</span>
-                <span>D</span>
-                <span>E</span>
-                <span>N</span>
-                <span>C</span>
-                <span>E</span>
-                <span>S</span>
-              </span>
-            </div>
-          </a>
-
-          {/* Desktop Navigation */}
-          <ul className="nav-menu">
-            <li>
-              <a
-                href="#vision"
-                className={activeSection === "vision" ? "active" : ""}
-              >
-                The Vision
-              </a>
-            </li>
-            <li>
-              <a
-                href="#residences"
-                className={activeSection === "residences" ? "active" : ""}
-              >
-                Residences
-              </a>
-            </li>
-            <li>
-              <a
-                href="#amenities"
-                className={activeSection === "amenities" ? "active" : ""}
-              >
-                Amenities
-              </a>
-            </li>
-            <li>
-              <a
-                href="#investment"
-                className={activeSection === "investment" ? "active" : ""}
-              >
-                Investment
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contact"
-                className={activeSection === "contact" ? "active" : ""}
-              >
-                Private Tour
-              </a>
-            </li>
-          </ul>
-
-          <div className="header-actions">
-            <button className="btn-ghost" onClick={openBrochureModal}>
-              Download Brochure
-            </button>
-            <a href="#contact" className="btn-primary">
-              Book VIP Tour
-            </a>
-
-            {/* Mobile Menu Hamburger Toggle */}
-            <button
-              className="mobile-menu-toggle"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Navigation Menu"
-            >
-              {isMobileMenuOpen ? (
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              ) : (
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* ─── MOBILE SLIDE-DOWN DRAWER ─── */}
-      <div className={`mobile-nav-drawer ${isMobileMenuOpen ? "open" : ""}`}>
-        <ul className="mobile-nav-links">
-          <li>
-            <a
-              href="#vision"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={activeSection === "vision" ? "active" : ""}
-            >
-              The Vision
-            </a>
-          </li>
-          <li>
-            <a
-              href="#residences"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={activeSection === "residences" ? "active" : ""}
-            >
-              Residences
-            </a>
-          </li>
-          <li>
-            <a
-              href="#amenities"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={activeSection === "amenities" ? "active" : ""}
-            >
-              Amenities
-            </a>
-          </li>
-          <li>
-            <a
-              href="#investment"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={activeSection === "investment" ? "active" : ""}
-            >
-              Investment
-            </a>
-          </li>
-          <li>
-            <a
-              href="#contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={activeSection === "contact" ? "active" : ""}
-            >
-              Private Tour
-            </a>
-          </li>
-        </ul>
-        <div className="mobile-drawer-actions">
-          <button
-            className="btn-ghost"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              openBrochureModal();
-            }}
-          >
-            Download Brochure
-          </button>
-          <a
-            href="#contact"
-            className="btn-primary"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Book VIP Tour
-          </a>
-        </div>
-      </div>
+      {/* ─── UNIFIED SITE HEADER ─── */}
+      <SiteHeader onOpenBrochure={openBrochureModal} />
 
       {/* ─── SEAMLESS ATMOSPHERIC HERO SECTION ─── */}
       <section className="hero-viewport" data-od-id="hero-section">
@@ -332,15 +212,15 @@ export default function LandingPage() {
         {/* Editorial Content Overlaid on Atmospheric Background */}
         <div className="hero-content-wrapper">
           <div className="hero-text-block">
-            <div className="hero-eyebrow">Exclusive Off-Plan Launch</div>
+            <div className="hero-eyebrow">IKOYI, LAGOS • BOUTIQUE APART-HOTEL</div>
             <h1 className="hero-title">
-              Where Timeless Architecture Meets{" "}
-              <span className="hero-title-accent">Prestigious Living.</span>
+              Live Beautifully. Where Luxury Meets{" "}
+              <span className="hero-title-accent">Home.</span>
             </h1>
             <p className="hero-description">
-              An exclusive sanctuary of 1, 2, and 3-bedroom luxury residences and bespoke
-              sky penthouses, engineered with floor-to-ceiling panoramic glass, natural
-              stone finishes, and five-star hospitality management.
+              Private stays in Lagos, thoughtfully considered. More than a place to stay,
+              Maison Be is a place to belong. Built around comfort, trust, and understated luxury
+              with 24-hour dedicated concierge hospitality.
             </p>
 
             <div className="hero-action-group">
@@ -357,10 +237,10 @@ export default function LandingPage() {
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </a>
-              <button onClick={openBrochureModal} className="btn-hero-secondary">
-                Request Floor Plans
-              </button>
             </div>
+
+            {/* ─── LUXURY INTEGRATED CHECK-IN / CHECK-OUT AVAILABILITY BAR ─── */}
+            <HeroBookingBar />
           </div>
         </div>
       </section>
@@ -373,7 +253,7 @@ export default function LandingPage() {
         aria-label="WhatsApp Sales Concierge"
       >
         <div className="whatsapp-pulse"></div>
-        <div className="whatsapp-tooltip">Chat with Senior Portfolio Advisor</div>
+        <div className="whatsapp-tooltip">Chat with Maison Be Concierge</div>
         <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
         </svg>
@@ -385,9 +265,9 @@ export default function LandingPage() {
           <div className="whatsapp-advisor-profile">
             <div className="whatsapp-advisor-avatar-wrapper">
               <img
-                src="/images/maison-be-logo.jpeg"
+                src="/logo.png"
                 alt="Maison Be Concierge"
-                className="whatsapp-advisor-avatar"
+                className="whatsapp-advisor-avatar object-contain bg-[#070c16] p-1"
               />
               <div className="whatsapp-online-dot"></div>
             </div>
@@ -398,7 +278,7 @@ export default function LandingPage() {
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                 </svg>
               </div>
-              <div className="whatsapp-advisor-status">Typically replies within 5 mins</div>
+              <div className="whatsapp-advisor-status">+234 906 500 7079 • Online</div>
             </div>
           </div>
           <button
@@ -413,7 +293,7 @@ export default function LandingPage() {
         <div className="whatsapp-chat-body">
           <div className="whatsapp-chat-bubble">
             <p>
-              Hello! Welcome to <strong>Maison Be Residences</strong>. How may we assist you today? Select a quick topic below or type your personal inquiry:
+              Hello! Welcome to <strong>Maison Be Residences</strong>. How may we assist your stay in Ikoyi, Lagos? Select a topic or send us your inquiry:
             </p>
             <div className="whatsapp-bubble-time">Just now</div>
           </div>
@@ -424,49 +304,53 @@ export default function LandingPage() {
               className="whatsapp-chip"
               onClick={() =>
                 setWhatsAppMessage(
-                  "Hello, please share the 2026 off-plan price schedule and floor plans."
+                  "Hello, I would like to check availability and rates for the Belvedere Penthouse."
                 )
               }
             >
-              Request Price Schedule
+              Belvedere Penthouse ($1,100/night)
             </button>
             <button
               type="button"
               className="whatsapp-chip"
               onClick={() =>
                 setWhatsAppMessage(
-                  "Hello, I would like to schedule a private VIP viewing at the sales pavilion."
+                  "Hello, please share rates and availability for Beaufort, Berkeley or Bellamy suites."
                 )
               }
             >
-              Book Private Viewing
+              3-Bedroom Luxury Suites ($500/night)
             </button>
             <button
               type="button"
               className="whatsapp-chip"
               onClick={() =>
                 setWhatsAppMessage(
-                  "Hello, I am interested in the Signature Sky Penthouse availability."
+                  "Hello, I would like to inquire about hosting a private event or photoshoot at Maison Be."
                 )
               }
             >
-              Penthouse Inquiry
+              Private Events & Café Inquiries
             </button>
           </div>
         </div>
 
-        <form className="whatsapp-input-bar" onSubmit={handleSendWhatsApp}>
+        <form onSubmit={handleSendWhatsApp} className="whatsapp-chat-footer">
           <input
             type="text"
-            className="whatsapp-input-field"
+            className="whatsapp-chat-input"
             value={whatsAppMessage}
             onChange={(e) => setWhatsAppMessage(e.target.value)}
-            placeholder="Type your message..."
-            required
+            placeholder="Type message to concierge..."
           />
-          <button type="submit" className="whatsapp-send-btn" aria-label="Send WhatsApp message">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          <button
+            type="submit"
+            className="whatsapp-send-action"
+            aria-label="Send WhatsApp Message"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
           </button>
         </form>
@@ -476,39 +360,38 @@ export default function LandingPage() {
       <section className="section-vision" id="vision" data-od-id="vision-section">
         <div className="container">
           <div className="section-header">
-            <span className="section-index">01 // Architectural Narrative</span>
+            <span className="section-index">01 // The Philosophy</span>
             <h2 className="section-title">
-              A Symphony of Classical Symmetry & Modern Sophistication
+              More than a place to stay, Maison Be is a place to belong.
             </h2>
           </div>
 
           <div className="vision-grid">
             <div className="vision-text">
               <p className="vision-lead">
-                Conceived by visionary architects, Maison Be Residences redefines premier
-                urban living in Nigeria through pure geometry, natural light, and bespoke
-                craftsmanship.
+                Maison BE Residence is a contemporary boutique apart-hotel in the heart of
+                Ikoyi, Lagos, offering beautifully designed residences where refined luxury meets
+                the comfort of home.
               </p>
               <p className="vision-body">
-                Every residence is engineered with deep cantilevered terraces, bespoke
-                fluted stone paneling, and German-engineered triple-glazed glass systems
-                that provide acoustic serenity and uninterrupted skyline views.
+                Thoughtfully created for privacy, exceptional comfort and impeccable hospitality,
+                every stay is designed to feel effortless, personal and memorable. Built around
+                comfort, trust and understated luxury for short stays and extended visits.
               </p>
 
               <div className="vision-pillars">
                 <div className="pillar-card">
                   <div className="pillar-num">01</div>
-                  <h3 className="pillar-title">Panoramic Glass</h3>
+                  <h3 className="pillar-title">Understated Luxury</h3>
                   <p className="pillar-desc">
-                    Floor-to-ceiling 3.2m acoustic thermal glazing maximizing natural
-                    daylight.
+                    Bespoke Italian furnishings, quiet neutral palettes, and curated artwork.
                   </p>
                 </div>
                 <div className="pillar-card">
                   <div className="pillar-num">02</div>
-                  <h3 className="pillar-title">Smart Automation</h3>
+                  <h3 className="pillar-title">Thoughtful Hospitality</h3>
                   <p className="pillar-desc">
-                    Integrated biometric climate, lighting, and keyless concierge access.
+                    24-hour concierge, daily housekeeping, 24-hour room service, and secure valet arrival.
                   </p>
                 </div>
               </div>
@@ -517,8 +400,8 @@ export default function LandingPage() {
             <div className="vision-media-stack">
               <div className="vision-img-frame">
                 <img
-                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85"
-                  alt="Maison Be Architecture Detail"
+                  src="/media/exterior/patio.jpg"
+                  alt="Maison Be Residences Courtyard and Architecture"
                   className="vision-img-main"
                 />
               </div>
@@ -534,9 +417,14 @@ export default function LandingPage() {
         data-od-id="residences-section"
       >
         <div className="container">
-          <div className="section-header">
-            <span className="section-index">02 // The Collection</span>
-            <h2 className="section-title">Curated Suites & Sky Residences</h2>
+          <div className="section-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "16px" }}>
+            <div>
+              <span className="section-index">02 // The Collection</span>
+              <h2 className="section-title">Find your stay.</h2>
+            </div>
+            <a href="/apartments" className="btn-ghost" style={{ fontSize: "13px", padding: "10px 22px" }}>
+              View All 7 Residences →
+            </a>
           </div>
 
           <div className="residences-filter-bar">
@@ -546,16 +434,30 @@ export default function LandingPage() {
                 className={`filter-tab ${idx === currentUnit ? "active" : ""}`}
                 onClick={() => setCurrentUnit(idx)}
               >
-                {unit.name.replace(" Suite", "").replace(" Residence", "")}
+                {unit.name.replace(" — Penthouse", " Penthouse").replace(" Residence", "")}
               </button>
             ))}
+            <a
+              href="/apartments"
+              className="filter-tab"
+              style={{
+                borderColor: "rgba(212, 175, 55, 0.4)",
+                color: "#d4af37",
+                background: "rgba(212, 175, 55, 0.08)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              + 3 More Suites (View All 7) →
+            </a>
           </div>
 
           <div className="unit-display-card" id="unit-card">
             <div className="unit-media-stack">
-              <div className="unit-img-frame">
+              <a href={`/apartments/${u.slug}`} className="unit-img-frame" style={{ display: "block" }}>
                 <img id="unit-img" src={u.img} alt={u.name} />
-              </div>
+              </a>
             </div>
 
             <div className="unit-details-pane">
@@ -564,7 +466,9 @@ export default function LandingPage() {
                   {u.badge}
                 </div>
                 <h3 className="unit-title" id="unit-name">
-                  {u.name}
+                  <a href={`/apartments/${u.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
+                    {u.name}
+                  </a>
                 </h3>
                 <p className="unit-desc" id="unit-desc">
                   {u.desc}
@@ -572,7 +476,7 @@ export default function LandingPage() {
 
                 <div className="unit-specs-matrix">
                   <div>
-                    <div className="spec-item-label">Internal Area</div>
+                    <div className="spec-item-label">Accommodations</div>
                     <div className="spec-item-val" id="unit-area">
                       {u.area}
                     </div>
@@ -584,13 +488,13 @@ export default function LandingPage() {
                     </div>
                   </div>
                   <div>
-                    <div className="spec-item-label">Terrace Deck</div>
+                    <div className="spec-item-label">Signature Feature</div>
                     <div className="spec-item-val" id="unit-terrace">
                       {u.terrace}
                     </div>
                   </div>
                   <div>
-                    <div className="spec-item-label">Parking Bay</div>
+                    <div className="spec-item-label">Parking & Access</div>
                     <div className="spec-item-val" id="unit-parking">
                       {u.parking}
                     </div>
@@ -599,19 +503,19 @@ export default function LandingPage() {
               </div>
 
               <div className="unit-actions-row">
-                <button className="btn-primary" onClick={openBrochureModal}>
-                  Inquire About Unit
-                </button>
-                <button className="btn-ghost" onClick={openBrochureModal}>
-                  Download Blueprint (PDF)
-                </button>
+                <a href={`/apartments/${u.slug}`} className="btn-primary">
+                  View Suite Details & Photos
+                </a>
+                <a href="/apartments" className="btn-ghost">
+                  View All Residences →
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 4: SIGNATURE 5-STAR AMENITIES ─── */}
+      {/* ─── SECTION 4: SIGNATURE 5-STAR AMENITIES & SPACES ─── */}
       <section
         className="section-amenities"
         id="amenities"
@@ -619,286 +523,271 @@ export default function LandingPage() {
       >
         <div className="container">
           <div className="section-header">
-            <span className="section-index">03 // Private Club & Amenities</span>
-            <h2 className="section-title">Five-Star Hospitality, Everyday Living</h2>
+            <span className="section-index">03 // Spaces & Amenities</span>
+            <h2 className="section-title">Spaces that make staying feel beautifully complete.</h2>
           </div>
 
           <div className="amenities-matrix">
             <div className="amenity-column">
               <div className="amenity-meta">
                 <span className="amenity-num">01</span>
-                <span className="amenity-tag">AQUATICS</span>
+                <span className="amenity-tag">ALL-DAY CAFÉ</span>
               </div>
-              <h3 className="amenity-name">Horizon Infinity Pool</h3>
+              <h3 className="amenity-name">Maison Be Café</h3>
               <p className="amenity-detail">
-                Elevated heated horizon pool with panoramic skyline views and private
-                resident cabanas.
+                A warm, art-filled setting for breakfast, coffee, conversation, and an unhurried start to the day.
               </p>
-              <div className="amenity-spec">Panoramic Skyline Views</div>
+              <div className="amenity-spec">Artisanal Coffee & Breakfast</div>
             </div>
 
             <div className="amenity-column">
               <div className="amenity-meta">
                 <span className="amenity-num">02</span>
-                <span className="amenity-tag">HYDROTHERAPY</span>
+                <span className="amenity-tag">OPEN-AIR POOL</span>
               </div>
-              <h3 className="amenity-name">Thermal Spa & Steam</h3>
+              <h3 className="amenity-name">Poolside Hours</h3>
               <p className="amenity-detail">
-                Private rejuvenation suites, Finnish cedar saunas, and hydrotherapy
-                plunge pools.
+                An open-air pool and sun deck designed for quiet afternoons, refreshing dips, and leisure at your own pace.
               </p>
-              <div className="amenity-spec">Finnish Cedar & Plunge</div>
+              <div className="amenity-spec">Swimming Pool & Sun Deck</div>
             </div>
 
             <div className="amenity-column">
               <div className="amenity-meta">
                 <span className="amenity-num">03</span>
-                <span className="amenity-tag">PERFORMANCE</span>
+                <span className="amenity-tag">SANCTUARY</span>
               </div>
-              <h3 className="amenity-name">Technogym Studio</h3>
+              <h3 className="amenity-name">Vivez en beauté</h3>
               <p className="amenity-detail">
-                State-of-the-art cardiovascular and strength training with dedicated
-                Pilates reformers.
+                Colour, calm, and a secluded private oasis in the middle of Ikoyi, Lagos for quiet reflection.
               </p>
-              <div className="amenity-spec">Biometric & Reformers</div>
+              <div className="amenity-spec">Courtyard Garden Oasis</div>
             </div>
 
             <div className="amenity-column">
               <div className="amenity-meta">
                 <span className="amenity-num">04</span>
-                <span className="amenity-tag">EXECUTIVE</span>
+                <span className="amenity-tag">PORTE-COCHÈRE</span>
               </div>
-              <h3 className="amenity-name">Executive Boardroom</h3>
+              <h3 className="amenity-name">A Considered Arrival</h3>
               <p className="amenity-detail">
-                Ultra-high-speed fiber, conference facilities, and private video
-                walkthrough suites.
+                A welcoming private entrance framed by greenery, with 24/7 guarded security and dedicated valet.
               </p>
-              <div className="amenity-spec">Private Video Suites</div>
+              <div className="amenity-spec">Gated Valet & 24/7 Security</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 5: PAYMENT PLAN & INVESTMENT ─── */}
-      <section
-        className="section-investment"
-        id="investment"
-        data-od-id="investment-section"
-      >
+      {/* ─── SECTION 4 & 5: EDITORIAL STORIES ("THE MAISON BE WAY" & "MADE FOR LINGERING") ─── */}
+      <section className="residence-stories" id="experience" aria-label="The Maison Be Experience">
         <div className="container">
-          <div className="investment-split-grid">
-            <div className="investment-narrative-col">
-              <span className="section-index">04 // Capital Security</span>
-              <h2 className="section-title">
-                Structured For Capital Preservation & Transparency
-              </h2>
-              <p className="investment-lead-text">
-                Every phase of development is tied directly to independently certified structural milestones. Capital disbursements remain strictly protected in legal escrow until third-party engineering audits are fulfilled.
-              </p>
-
-              <div className="investment-guarantee-pillars">
-                <div className="inv-pillar-item">
-                  <div className="inv-pillar-header">
-                    <span className="inv-pillar-index">01</span>
-                    <h3 className="inv-pillar-name">Independent Escrow Protection</h3>
-                  </div>
-                  <p className="inv-pillar-desc">
-                    Milestone funds are disbursed strictly against verified civil engineering drawdowns approved by independent legal trustees.
-                  </p>
-                </div>
-
-                <div className="inv-pillar-item">
-                  <div className="inv-pillar-header">
-                    <span className="inv-pillar-index">02</span>
-                    <h3 className="inv-pillar-name">Freehold Deed & Title Registration</h3>
-                  </div>
-                  <p className="inv-pillar-desc">
-                    Direct government title perfection and prompt deed handover upon final completion and key exchange.
-                  </p>
-                </div>
-
-                <div className="inv-pillar-item">
-                  <div className="inv-pillar-header">
-                    <span className="inv-pillar-index">03</span>
-                    <h3 className="inv-pillar-name">Projected Capital Appreciation</h3>
-                  </div>
-                  <p className="inv-pillar-desc">
-                    Estimated 28% – 35% equity appreciation through structural delivery and prime rental yield index.
-                  </p>
-                </div>
+          <div className="residence-story-wrapper">
+            {/* Story 1: Belvedere Penthouse */}
+            <article className="residence-story-item">
+              <div className="residence-story-copy">
+                <span className="residence-story-eyebrow">04 // The Maison Be Way</span>
+                <h2 className="residence-story-title">A more considered way to stay.</h2>
+                <p className="residence-story-desc">
+                  From the first arrival to the last unhurried morning, each Maison Be residence is designed around the quiet details that make a stay feel effortless.
+                </p>
+                <Link href="/apartments" className="residence-story-link">
+                  View all apartments <span aria-hidden="true">→</span>
+                </Link>
               </div>
-            </div>
 
-            <div className="investment-timeline-col">
-              <div className="milestone-timeline">
-                <div className="milestone-timeline-item highlight">
-                  <div className="timeline-node-track">
-                    <div className="timeline-dot"></div>
-                    <div className="timeline-line"></div>
-                  </div>
-                  <div className="timeline-content">
-                    <div className="timeline-header-row">
-                      <span className="timeline-phase-tag">PHASE 01 // INITIAL</span>
-                      <span className="timeline-pct">10%</span>
-                    </div>
-                    <h3 className="timeline-title">Reservation Deposit</h3>
-                    <p className="timeline-desc">
-                      Secures priority unit allocation, preferred orientation, and locks in pre-construction price rates.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="milestone-timeline-item">
-                  <div className="timeline-node-track">
-                    <div className="timeline-dot"></div>
-                    <div className="timeline-line"></div>
-                  </div>
-                  <div className="timeline-content">
-                    <div className="timeline-header-row">
-                      <span className="timeline-phase-tag">PHASE 02 // STRUCTURE</span>
-                      <span className="timeline-pct">40%</span>
-                    </div>
-                    <h3 className="timeline-title">Construction Milestones</h3>
-                    <p className="timeline-desc">
-                      Disbursed in quarterly tranches tied to verified foundation, core framing, and floor slab progression.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="milestone-timeline-item">
-                  <div className="timeline-node-track">
-                    <div className="timeline-dot"></div>
-                    <div className="timeline-line"></div>
-                  </div>
-                  <div className="timeline-content">
-                    <div className="timeline-header-row">
-                      <span className="timeline-phase-tag">PHASE 03 // ENVELOPE</span>
-                      <span className="timeline-pct">10%</span>
-                    </div>
-                    <h3 className="timeline-title">Structure Completion</h3>
-                    <p className="timeline-desc">
-                      Payable upon architectural structural top-out and external acoustic thermal facade installation.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="milestone-timeline-item">
-                  <div className="timeline-node-track">
-                    <div className="timeline-dot"></div>
-                  </div>
-                  <div className="timeline-content">
-                    <div className="timeline-header-row">
-                      <span className="timeline-phase-tag">PHASE 04 // HANDOVER</span>
-                      <span className="timeline-pct">40%</span>
-                    </div>
-                    <h3 className="timeline-title">Key Handover & Title</h3>
-                    <p className="timeline-desc">
-                      Final balance settled upon title deed perfection, physical key handover, and formal resident move-in.
-                    </p>
-                  </div>
-                </div>
+              <div className="residence-story-media-stack">
+                <StoryPhotoSlider
+                  gallery={belvedereGallery}
+                  fallbackImage={belvedereRes?.coverImage}
+                  residenceTitle="Belvedere Penthouse"
+                  alt="Belvedere Penthouse at Maison Be"
+                  autoPlayInterval={4500}
+                />
               </div>
-            </div>
+            </article>
+
+            {/* Story 2: Beaufort Residence (Inverted layout) */}
+            <article className="residence-story-item is-reversed">
+              <div className="residence-story-media-stack">
+                <StoryPhotoSlider
+                  gallery={beaufortGallery}
+                  fallbackImage={beaufortRes?.coverImage}
+                  residenceTitle="Beaufort Residence"
+                  alt="Beaufort Residence at Maison Be"
+                  autoPlayInterval={5000}
+                />
+              </div>
+
+              <div className="residence-story-copy">
+                <span className="residence-story-eyebrow">05 // Made for Lingering</span>
+                <h2 className="residence-story-title">Space to settle into your own rhythm.</h2>
+                <p className="residence-story-desc">
+                  Thoughtful interiors, generous rooms and a private sense of calm make every visit feel less like a booking and more like coming home.
+                </p>
+                <Link href="/apartments" className="residence-story-link">
+                  View all apartments <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* ─── SECTION 6: VIP CONSULTATION & PRIVATE VIEWING ─── */}
+      {/* ─── SECTION 6: VIP RESERVATION & CONCIERGE ─── */}
       <section className="section-booking" id="contact" data-od-id="booking-section">
         <div className="container">
+          <div className="section-header">
+            <span className="section-index">06 // Reserve Your Stay</span>
+            <h2 className="section-title">We’re here to make your stay effortless.</h2>
+            <p className="consultation-lead-text">
+              Whether you are planning a short visit, an extended executive stay, or need assistance selecting the ideal residence, our dedicated concierge team is at your disposal 24/7.
+            </p>
+          </div>
+
           <div className="consultation-split-grid">
-            <div className="consultation-info-col">
-              <span className="section-index">05 // Private Consultation</span>
-              <h2 className="section-title">Schedule Your Private Gallery Viewing</h2>
-              <p className="consultation-lead-text">
-                Experience the architectural scale model, explore bespoke materials & finishes, and review portfolio allocation strategies with our Senior Advisory team in complete privacy.
-              </p>
-
+            <div className="booking-info-col">
               <div className="consultation-touchpoints">
-                <div className="touchpoint-item">
-                  <div className="touchpoint-label">Sales Gallery & Model Suite</div>
-                  <div className="touchpoint-val">45 Alexander Road, Ikoyi / Victoria Island, Lagos, Nigeria</div>
+                <div className="touchpoint-card">
+                  <div className="touchpoint-card-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="touchpoint-label">Residence Location</span>
+                    <div className="touchpoint-val">Ikoyi, Lagos, Nigeria</div>
+                    <span className="text-xs text-white/50 block mt-1">Prime residential enclave with swift corporate & dining access</span>
+                  </div>
                 </div>
 
-                <div className="touchpoint-item">
-                  <div className="touchpoint-label">Direct VIP Concierge</div>
-                  <div className="touchpoint-val">+234 800 000 0000 &nbsp;•&nbsp; advisors@maisonberesidences.com</div>
-                </div>
+                <a href="mailto:reservations@maisonberesidences.com" className="touchpoint-card group">
+                  <div className="touchpoint-card-icon group-hover:text-[#f3d068] transition-colors">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="touchpoint-label">Official Reservations Email</span>
+                    <div className="touchpoint-val group-hover:text-[#d4af37] transition-colors">reservations@maisonberesidences.com</div>
+                    <span className="text-xs text-white/50 block mt-1">Direct reservations desk • Inquiries answered promptly</span>
+                  </div>
+                </a>
 
-                <div className="touchpoint-item">
-                  <div className="touchpoint-label">Executive Chauffeur Service</div>
-                  <div className="touchpoint-val">Complimentary private city and airport chauffeur transfers arranged upon confirmation.</div>
+                <a href="https://wa.me/2349065007079" target="_blank" rel="noopener noreferrer" className="touchpoint-card group">
+                  <div className="touchpoint-card-icon group-hover:text-[#f3d068] transition-colors">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="touchpoint-label">Direct Concierge WhatsApp & Phone</span>
+                    <div className="touchpoint-val group-hover:text-[#d4af37] transition-colors">+234 906 500 7079</div>
+                    <span className="text-xs text-white/50 block mt-1">Instant WhatsApp concierge dispatch 24/7</span>
+                  </div>
+                </a>
+
+                <div className="touchpoint-card">
+                  <div className="touchpoint-card-icon">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="touchpoint-label">Stay Policy & Guarantee</span>
+                    <div className="touchpoint-val">Minimum 2 Nights Stay</div>
+                    <span className="text-xs text-white/50 block mt-1">14+ days: 50% refund • 7–13 days: 50% refund • Under 7 days: Non-refundable</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="consultation-form-col">
-              <form className="consultation-form" onSubmit={handleBooking}>
-                <div className="form-row-2col">
-                  <div>
-                    <label className="input-label">Full Name</label>
-                    <input
-                      type="text"
-                      className="input-field"
-                      placeholder="Lord / Lady / Dr. / Mr. / Ms."
-                      required
-                    />
+              <div className="consultation-form-card">
+                <form className="consultation-form" onSubmit={handleBooking}>
+                  <div className="form-row-2col">
+                    <div>
+                      <label className="input-label">Full Name</label>
+                      <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Your full name"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="input-label">Email Address</label>
+                      <input
+                        type="email"
+                        className="input-field"
+                        placeholder="name@domain.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row-2col">
+                    <div>
+                      <label className="input-label">Phone / WhatsApp</label>
+                      <input
+                        type="tel"
+                        className="input-field"
+                        placeholder="+234 906 500 7079"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="input-label">Residence Preference</label>
+                      <select className="input-field" defaultValue="Belvedere — Penthouse">
+                        <option value="Belvedere — Penthouse">Belvedere — Penthouse ($1,100 / night)</option>
+                        <option value="Beaufort Residence">Beaufort Residence ($500 / night)</option>
+                        <option value="Berkeley Residence">Berkeley Residence ($500 / night)</option>
+                        <option value="Bellamy Residence">Bellamy Residence ($500 / night)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-row-2col">
+                    <div>
+                      <label className="input-label">Check-in Date</label>
+                      <input
+                        type="date"
+                        className="input-field"
+                        value={checkInDate}
+                        onChange={(e) => setCheckInDate(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="input-label">Check-out Date</label>
+                      <input
+                        type="date"
+                        className="input-field"
+                        value={checkOutDate}
+                        onChange={(e) => setCheckOutDate(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
 
                   <div>
-                    <label className="input-label">Email Address</label>
-                    <input
-                      type="email"
-                      className="input-field"
-                      placeholder="name@domain.com"
-                      required
-                    />
+                    <button
+                      type="submit"
+                      className="btn-hero-primary consultation-submit-btn"
+                    >
+                      Request Reservation Availability
+                    </button>
+                    <p className="consultation-confidential-note">
+                      Strictly confidential. Send us your preferred dates and our concierge team will confirm availability promptly.
+                    </p>
                   </div>
-                </div>
-
-                <div className="form-row-2col">
-                  <div>
-                    <label className="input-label">Phone / WhatsApp</label>
-                    <input
-                      type="tel"
-                      className="input-field"
-                      placeholder="+234 / +44 / +1 ..."
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="input-label">Residence Preference</label>
-                    <select className="input-field" defaultValue="1-Bedroom Executive Suite">
-                      <option value="1-Bedroom Executive Suite">1-Bedroom Executive Suite</option>
-                      <option value="2-Bedroom Luxury Residence">2-Bedroom Luxury Residence</option>
-                      <option value="3-Bedroom Family Suite">3-Bedroom Family Suite</option>
-                      <option value="Signature Sky Penthouse">Signature Sky Penthouse</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="input-label">Preferred Viewing Format</label>
-                  <select className="input-field" defaultValue="Private Gallery Viewing (Ikoyi Suite)">
-                    <option value="Private Gallery Viewing (Ikoyi Suite)">Private Gallery Viewing (Ikoyi Suite)</option>
-                    <option value="Virtual High-Definition Walkthrough">Virtual High-Definition Walkthrough</option>
-                    <option value="Private Advisory Dinner & Briefing">Private Advisory Briefing</option>
-                  </select>
-                </div>
-
-                <div>
-                  <button
-                    type="submit"
-                    className="btn-hero-primary consultation-submit-btn"
-                  >
-                    Confirm Private Appointment
-                  </button>
-                  <p className="consultation-confidential-note">
-                    Strictly confidential. Your inquiry is managed exclusively by our Senior Advisory team.
-                  </p>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -909,11 +798,36 @@ export default function LandingPage() {
         <div className="container">
           <div className="footer-grid">
             <div>
-              <div className="footer-brand">Maison Be Residences</div>
+              <div className="footer-brand mb-3">
+                <img
+                  src="/logo.png"
+                  alt="Maison Be Residences"
+                  className="brand-logo-img"
+                  style={{ height: "38px", width: "auto", objectFit: "contain" }}
+                />
+              </div>
               <p className="footer-tagline">
-                An iconic landmark residential tower redefining luxury off-plan investment
-                in Nigeria.
+                A contemporary boutique apart-hotel in the heart of Ikoyi, Lagos, offering
+                beautifully designed residences where refined luxury meets the comfort of home.
               </p>
+            </div>
+
+            <div>
+              <h4 className="footer-heading">The Residences</h4>
+              <ul className="footer-links">
+                <li>
+                  <a href="#residences">Belvedere — Penthouse</a>
+                </li>
+                <li>
+                  <a href="#residences">Beaufort Suite</a>
+                </li>
+                <li>
+                  <a href="#residences">Berkeley Suite</a>
+                </li>
+                <li>
+                  <a href="#residences">Bellamy Suite</a>
+                </li>
+              </ul>
             </div>
 
             <div>
@@ -926,105 +840,83 @@ export default function LandingPage() {
                   <a href="#residences">Residences</a>
                 </li>
                 <li>
-                  <a href="#amenities">Amenities</a>
+                  <a href="#amenities">Amenities & Spaces</a>
                 </li>
                 <li>
-                  <a href="#investment">Investment</a>
+                  <a href="/information/about-us">About Maison Be</a>
+                </li>
+                <li>
+                  <a href="/information/events">Amenities & Events</a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="footer-heading">Legal & Licenses</h4>
+              <h4 className="footer-heading">Reservations & Contact</h4>
               <ul className="footer-links">
                 <li>
-                  <a href="#">Approved Master Plan</a>
+                  <a href="mailto:reservations@maisonberesidences.com">reservations@maisonberesidences.com</a>
                 </li>
                 <li>
-                  <a href="#">Deed of Assignment</a>
+                  <a href="tel:+2349065007079">+234 906 500 7079</a>
                 </li>
                 <li>
-                  <a href="#">Privacy Policy</a>
+                  <a href="https://wa.me/2349065007079" target="_blank" rel="noopener noreferrer">WhatsApp Concierge</a>
                 </li>
                 <li>
-                  <a href="#">Terms of Investment</a>
+                  <a href="/information/contact">Ikoyi, Lagos, Nigeria</a>
                 </li>
               </ul>
-            </div>
-
-            <div>
-              <h4 className="footer-heading">Sales Gallery</h4>
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "rgba(245, 246, 248, 0.65)",
-                  lineHeight: "1.8",
-                }}
-              >
-                Maison Be Sales Pavilion
-                <br />
-                Victoria Island, Lagos, Nigeria
-                <br />
-                private@maisonbe.com
-              </p>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <div>&copy; 2026 Maison Be Residences. All rights reserved.</div>
-            <div>Architectural Monograph // Prata Edition</div>
+            <div>© 2026 Maison Be Residences. All rights reserved.</div>
+            <div className="footer-legal-bar">
+              <a href="/information/cancellation-refund-policy">Cancellation & Refund Policy</a>
+              <span>•</span>
+              <a href="/information/house-rules">House Rules</a>
+              <span>•</span>
+              <a href="/information/terms-of-use">Terms of Use</a>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* ─── BROCHURE MODAL ─── */}
+      {/* ─── LOOKBOOK MODAL ─── */}
       <div
-        className={`modal-overlay ${isBrochureOpen ? "active" : ""}`}
+        className={`modal-overlay modal-backdrop ${isBrochureOpen ? "active open" : ""}`}
         id="brochure-modal"
-        onClick={(e) => {
-          if ((e.target as HTMLElement).id === "brochure-modal") {
-            closeBrochureModal();
-          }
-        }}
+        onClick={closeBrochureModal}
       >
-        <div className="modal-box">
-          <button className="modal-close" onClick={closeBrochureModal}>
+        <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+          <button
+            className="modal-close-btn"
+            onClick={closeBrochureModal}
+            aria-label="Close Modal"
+          >
             &times;
           </button>
-          <span className="section-index">Official Document Access</span>
-          <h3
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "28px",
-              color: "#ffffff",
-              marginBottom: "8px",
-            }}
-          >
-            Download Full Brochure
-          </h3>
-          <p
-            style={{
-              fontSize: "13px",
-              color: "rgba(245, 246, 248, 0.7)",
-              marginBottom: "24px",
-            }}
-          >
-            Receive the complete architectural monograph, unit blueprints, specification
-            lists, and 2026 price schedule directly via email and WhatsApp.
+          <span className="modal-category">Exclusive Monograph</span>
+          <h3 className="modal-title">Maison Be Lookbook & Floor Plans</h3>
+          <p className="modal-desc">
+            Receive the complete residential portfolio with high-resolution interior photography,
+            detailed floor plans, and amenities guide for Belvedere, Beaufort, Berkeley, and Bellamy.
           </p>
 
-          <form onSubmit={handleBrochureSubmit}>
-            <div style={{ marginBottom: "16px" }}>
-              <label className="input-label">Your Name</label>
+          <form className="modal-form" onSubmit={handleBrochureSubmit}>
+            <div>
+              <label className="input-label">Full Name</label>
               <input
                 type="text"
                 className="input-field"
-                placeholder="Full name"
+                placeholder="Lord / Lady / Dr. / Mr. / Ms."
                 required
               />
             </div>
-            <div style={{ marginBottom: "16px" }}>
-              <label className="input-label">Email Address</label>
+
+            <div>
+              <label className="input-label">Direct Email</label>
               <input
                 type="email"
                 className="input-field"
@@ -1032,22 +924,23 @@ export default function LandingPage() {
                 required
               />
             </div>
-            <div style={{ marginBottom: "24px" }}>
+
+            <div>
               <label className="input-label">WhatsApp Number</label>
               <input
                 type="tel"
                 className="input-field"
-                placeholder="+234 ..."
+                placeholder="+234 906 500 7079"
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="btn-hero-primary"
-              style={{ width: "100%", justifyContent: "center" }}
-            >
-              Download PDF Monograph
+
+            <button type="submit" className="btn-hero-primary modal-submit-btn">
+              Download Lookbook (PDF)
             </button>
+            <p className="modal-privacy-notice">
+              Your contact information is strictly confidential and managed exclusively by Maison Be Concierge.
+            </p>
           </form>
         </div>
       </div>

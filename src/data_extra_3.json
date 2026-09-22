@@ -1,0 +1,56 @@
+{
+  "belgravia": {
+    "imageCount": 5,
+    "cover": "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/332e47b6-845c-411c-a563-c48e46600499.jpg",
+    "images": [
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/332e47b6-845c-411c-a563-c48e46600499.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/c2086a39-e8a9-47a1-97ea-c74c82beb418.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/39164399-96c1-43c1-b2f2-c9ccaefd822f.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/fe65fe13-257d-4f58-9a54-278c7c29ef9c.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/d68eaad7-a43d-4524-8d7e-00e979677c12.jpg"
+    ],
+    "facts": {
+      "Confirmation": "Instant",
+      "Bedrooms": "3",
+      "Bathrooms": "3.5",
+      "Guests": "7",
+      "Floor": "2nd floor"
+    }
+  },
+  "belmont": {
+    "imageCount": 5,
+    "cover": "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/be443826-908d-4182-aaf9-27a1ebcf44aa.jpg",
+    "images": [
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/be443826-908d-4182-aaf9-27a1ebcf44aa.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/fab80149-306d-41cc-8619-f0b371f2dd39.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/c423301a-8026-44cd-805a-828a071850fe.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/4ce3dfca-c552-4bbd-a0cb-dc09299d0856.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/e62caec4-df14-4c63-84ee-d29f4afce7a0.jpg"
+    ],
+    "facts": {
+      "Confirmation": "Instant",
+      "Bedrooms": "2",
+      "Bathrooms": "2.5",
+      "Guests": "5",
+      "Floor": "2nd floor"
+    }
+  },
+  "beaumont": {
+    "imageCount": 5,
+    "cover": "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/92a52065-e04b-4cf5-917a-b226d342c100.jpg",
+    "images": [
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/92a52065-e04b-4cf5-917a-b226d342c100.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/c0494f20-15af-4f68-a36d-3e10f45ef185.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/13aa6605-821e-4d7e-9391-eefb01e2aed3.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/754bef56-7c5a-4dfb-a84a-e5c576698357.jpg",
+      "https://file--storage.lon1.cdn.digitaloceanspaces.com/apartments/4b9850fa-683f-47f8-94bc-13f54a9b914b.jpg"
+    ],
+    "facts": {
+      "Confirmation": "Instant",
+      "Bedrooms": "2",
+      "Bathrooms": "2.5",
+      "Guests": "5",
+      "Floor": "3rd floor"
+    }
+  }
+}
