@@ -53,6 +53,9 @@ html {
   background: var(--dark-bg);
   color: #f5f6f8;
   font-family: var(--font-body);
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 body {
@@ -61,6 +64,16 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
   width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+[data-od-id="maison-be-body"],
+main,
+section,
+.site-header {
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 a {
@@ -88,6 +101,9 @@ button {
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
   z-index: 1000;
   background: rgba(7, 12, 22, 0.92);
   backdrop-filter: blur(20px);
@@ -97,6 +113,7 @@ button {
   display: flex;
   align-items: center;
   transition: var(--transition);
+  overflow-x: clip;
 }
 
 .header-inner {
@@ -104,15 +121,18 @@ button {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  max-width: var(--container-max);
   height: 100%;
   gap: 32px;
+  box-sizing: border-box;
 }
 
 .brand-name {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
   text-decoration: none;
   white-space: nowrap;
   height: 100%;
@@ -461,7 +481,7 @@ button {
   display: flex;
   align-items: center;
   background: var(--dark-bg);
-  overflow: visible;
+  overflow-x: clip;
   padding-top: 84px;
   padding-bottom: 80px;
   z-index: 20;
@@ -486,6 +506,7 @@ button {
   left: -5%;
   width: 680px;
   height: 680px;
+  max-width: 100vw;
   opacity: 0.04;
   pointer-events: none;
   z-index: 1;
@@ -2815,15 +2836,25 @@ select.input-field option,
 @media (max-width: 1024px) {
   .container, .site-container {
     padding: 0 24px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
   .site-header {
-    height: 76px;
+    height: 72px;
+    width: 100%;
+    max-width: 100vw;
+  }
+  .header-inner {
+    gap: 16px;
+    width: 100%;
   }
   .brand-logo-img {
-    height: 48px;
+    height: 44px;
+    max-width: 220px;
   }
   .hero-viewport {
-    padding-top: 76px;
+    padding-top: 72px;
   }
   .hero-imagery-backdrop {
     width: 100%;
@@ -2865,16 +2896,39 @@ select.input-field option,
     display: none;
   }
   .mobile-menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-cad-drawing {
+    display: none !important;
   }
 }
 
 @media (max-width: 640px) {
   .container, .site-container {
-    padding: 0 20px;
+    padding: 0 16px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .site-header {
+    height: 68px;
+  }
+  .brand-logo-img {
+    height: 36px;
+    max-width: 160px;
+  }
+  .hero-viewport {
+    padding-top: 68px;
   }
   .section-vision, .section-residences, .section-amenities, .section-investment, .section-booking {
     padding: 80px 0;
+    overflow-x: clip;
+    max-width: 100vw;
   }
   .vision-pillars {
     grid-template-columns: 1fr;
@@ -2882,13 +2936,12 @@ select.input-field option,
   }
   .vision-media-stack, .unit-media-stack, .residence-story-media-stack {
     height: 280px;
-    margin: 0 10px 10px 0;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
   }
   .vision-media-stack::before, .unit-media-stack::before, .residence-story-media-stack::before {
-    top: 10px;
-    left: 10px;
-    right: -10px;
-    bottom: -10px;
+    display: none;
   }
   .amenities-matrix {
     grid-template-columns: 1fr;
@@ -2943,6 +2996,8 @@ select.input-field option,
 html.lenis,
 html.lenis body {
   height: auto;
+  overflow-x: hidden !important;
+  max-width: 100vw;
 }
 
 .lenis.lenis-smooth {
