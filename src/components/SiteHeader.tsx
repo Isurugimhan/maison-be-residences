@@ -179,9 +179,6 @@ export default function SiteHeader({ onOpenBrochure, whatsappMessage }: SiteHead
 
           {/* ─── Header Actions ─── */}
           <div className="header-actions">
-            <button className="btn-ghost" onClick={handleOpenBrochure}>
-              Request Lookbook
-            </button>
             {isLandingPage ? (
               <a href="#contact" className="btn-primary">
                 Reserve Stay
@@ -276,15 +273,6 @@ export default function SiteHeader({ onOpenBrochure, whatsappMessage }: SiteHead
           ))}
         </ul>
         <div className="mobile-drawer-actions">
-          <button
-            className="btn-ghost w-full justify-center"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              handleOpenBrochure();
-            }}
-          >
-            Request Lookbook
-          </button>
           {isLandingPage ? (
             <a
               href="#contact"
