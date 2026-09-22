@@ -119,11 +119,19 @@ export default function SiteHeader({ onOpenBrochure, whatsappMessage }: SiteHead
         <div className="container header-inner">
           {/* ─── Brand Logo ─── */}
           <Link href="/" className="brand-name" aria-label="Maison Be Residences Home">
-            <img
-              src="/logo.png"
-              alt="Maison Be Residences"
-              className="brand-logo-img"
-            />
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img
+                src="/logo.png"
+                alt="Maison Be Residences"
+                className="brand-logo-img"
+                width={168}
+                height={56}
+                // @ts-ignore
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
           </Link>
 
           {/* ─── Desktop Navigation ─── */}

@@ -62,6 +62,9 @@ export default function RootLayout({
       lang="en"
       className={`${prata.variable} ${plusJakarta.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
+      <head>
+        <link rel="preload" href="/logo.webp" as="image" type="image/webp" />
+      </head>
       <body className="bg-[#070c16] text-[#f5f6f8] font-body antialiased overflow-x-hidden selection:bg-[#d4af37] selection:text-[#070c16]">
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
